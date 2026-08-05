@@ -1,28 +1,28 @@
-default_deploy_mode = "ctf"
+default_deploy_mode = "spawn"
 
 [build]
 build_mode = "arena"
 
-[ctf]
+[spawn]
 destination = "/Users/username/ScreepsArena"
 prune = false
-branch = "alpha-capture_the_flag"
-  [ctf.build]
-  extra_options = ["--features=arena-capture-the-flag"]
+branch = "season3-spawn_strike"
+  [spawn.build]
+  extra_options = ["--features=season3-spawn_strike"]
 
-[swamp]
+[power]
 destination = "/Users/username/ScreepsArena"
 prune = false
-branch = "alpha-spawn_and_swamp"
-  [swamp.build]
-  extra_options = ["--features=arena-spawn-and-swamp"]
+branch = "season3-power_split"
+  [power.build]
+  extra_options = ["--features=season3-power_split"]
 
-[collect]
+[escort]
 destination = "/Users/username/ScreepsArena"
 prune = false
-branch = "alpha-collect_and_control"
-  [collect.build]
-  extra_options = ["--features=arena-collect-and-control"]
+branch = "season3-escort_run"
+  [escort.build]
+  extra_options = ["--features=season3-escort_run"]
 
 # for full syntax, see
 # https://github.com/rustyscreeps/cargo-screeps/blob/master/screeps-defaults.toml
