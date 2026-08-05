@@ -39,7 +39,7 @@ impl Bot {
         setup();
         Self {
       // initialise any structures/data in Bot here
-    }
+      }
     }
     // add wasm_bindgen to any function you would like to expose for call from js
     // to use a reserved name as a function name, use `js_name`:
@@ -47,40 +47,8 @@ impl Bot {
     pub fn tick(&mut self) {
         let tick = game::utils::get_ticks();
 
-        warn!("hello arena! {}", tick);
-
         let info = game::arena_info();
         warn!("arena_info: {:?}", info);
-
-        // strategy for spawn and swamp arena, which will conditionally compile in
-        // only when this feature is enabled for the crate
-        #[cfg(feature = "arena-spawn-and-swamp")]
-        {
-            let mut enemy_spawn = None;
-            let spawns = game::utils::get_objects_by_prototype(prototypes::STRUCTURE_SPAWN);
-            arn!("spawns {}", spawns.len());
-            for spawn in spawns {
-                if spawn.my().unwrap_or(false) {
-                    spawn.spawn_creep(&[Part::Move, Part::Attack]);
-                } else {
-                    enemy_spawn = Some(spawn);
-                }
-            }
-
-            let creeps = game::utils::get_objects_by_prototype(prototypes::CREEP);
-            warn!("creeps {}", creeps.len());
-            for creep in creeps {
-                if creep.my() {
-                    match &enemy_spawn {
-                        Some(t) => {
-                            creep.move_to(t, None);
-                            creep.attack(t);
-                        }
-                        None => {}
-                    }
-                }
-            }
-        }
     }
 }
 
