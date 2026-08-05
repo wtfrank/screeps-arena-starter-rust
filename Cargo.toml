@@ -13,13 +13,13 @@ log = "0.4"
 fern = "0.6"
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
-screeps-arena-wasm = { package = "screeps-arena-game-api", path = "../screeps-arena-game-api" }
-wasm-bindgen-wasm = { package = "real-wasm-bindgen", path = "../arena_api_mock/real-wasm-bindgen" }
+screeps-arena-wasm = { package = "screeps-arena-game-api", path = "../../screeps-arena-game-api" }
+wasm-bindgen-wasm = { package = "real-wasm-bindgen", path = "../../arena_api_mock/real-wasm-bindgen" }
 web-sys = { version = "0.3", features = ["console"] }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
-screeps-arena-mock = { package = "mock-screeps-arena", path = "../arena_api_mock/mock-screeps-arena" }
-wasm-bindgen-mock = { package = "wasm-bindgen", path = "../arena_api_mock/mock-wasm-bindgen" }
+screeps-arena-mock = { package = "mock-screeps-arena", path = "../../arena_api_mock/mock-screeps-arena" }
+wasm-bindgen-mock = { package = "wasm-bindgen", path = "../../arena_api_mock/mock-wasm-bindgen" }
 
 
 # The `console_error_panic_hook` crate provides better debugging of panics by
