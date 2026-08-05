@@ -1,14 +1,23 @@
+#[cfg(target_arch = "wasm32")]
 use crate::wasm_bindgen;
+#[cfg(target_arch = "wasm32")]
 use js_sys::JsString;
 pub use log::LevelFilter::*;
+#[cfg(target_arch = "wasm32")]
 use log::error;
+#[cfg(target_arch = "wasm32")]
 use std::fmt::Write;
+#[cfg(target_arch = "wasm32")]
 use std::panic;
+#[cfg(target_arch = "wasm32")]
 use std::panic::PanicHookInfo;
+#[cfg(target_arch = "wasm32")]
 use web_sys::console;
 
+#[cfg(target_arch = "wasm32")]
 struct JsLog;
 
+#[cfg(target_arch = "wasm32")]
 impl log::Log for JsLog {
     fn enabled(&self, _: &log::Metadata<'_>) -> bool {
         true
@@ -19,6 +28,7 @@ impl log::Log for JsLog {
     fn flush(&self) {}
 }
 
+#[cfg(target_arch = "wasm32")]
 pub fn setup_logging(verbosity: log::LevelFilter) {
     fern::Dispatch::new()
         .level(verbosity)
@@ -36,6 +46,28 @@ pub fn setup_logging(verbosity: log::LevelFilter) {
     panic::set_hook(Box::new(panic_hook));
 }
 
+#[cfg(not(target_arch = "wasm32"))]
+pub fn setup_logging(default_verbosity: log::LevelFilter) {
+    let level = std::env::var("RUST_LOG")
+        .ok()
+        .and_then(|val| val.parse::<log::LevelFilter>().ok())
+        .unwrap_or(default_verbosity);
+
+    let _ = fern::Dispatch::new()
+        .level(level)
+        .format(|out, message, record| {
+            out.finish(format_args!(
+                "({}) {}: {}",
+                record.level(),
+                record.target(),
+                message
+            ))
+        })
+        .chain(std::io::stdout())
+        .apply();
+}
+
+#[cfg(target_arch = "wasm32")]
 fn panic_hook(info: &PanicHookInfo) {
     // import JS Error API to get backtrace info (backtraces don't work in wasm)
     // Node 8 does support this API: https://nodejs.org/docs/latest-v8.x/api/errors.html#errors_error_stack
