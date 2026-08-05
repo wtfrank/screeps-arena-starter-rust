@@ -1,3 +1,13 @@
+#[cfg(target_arch = "wasm32")]
+pub extern crate screeps_arena_wasm as screeps_arena;
+#[cfg(target_arch = "wasm32")]
+pub extern crate wasm_bindgen_wasm as wasm_bindgen;
+
+#[cfg(not(target_arch = "wasm32"))]
+pub extern crate screeps_arena_mock as screeps_arena;
+#[cfg(not(target_arch = "wasm32"))]
+pub extern crate wasm_bindgen_mock as wasm_bindgen;
+
 use log::*;
 use screeps_arena::{
     constants::{Part, prototypes},
