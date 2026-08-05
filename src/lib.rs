@@ -42,13 +42,13 @@ impl Bot {
         let info = game::arena_info();
         warn!("arena_info: {:?}", info);
 
-        // strategy for spawn and swamp arena, which will conditionally compile in
+        // strategy for spawn strike arena, which will conditionally compile in
         // only when this feature is enabled for the crate
-        #[cfg(feature = "arena-spawn-and-swamp")]
+        #[cfg(feature = "season3-spawn_strike")]
         {
             let mut enemy_spawn = None;
             let spawns = game::utils::get_objects_by_prototype(prototypes::STRUCTURE_SPAWN);
-            arn!("spawns {}", spawns.len());
+            warn!("spawns {}", spawns.len());
             for spawn in spawns {
                 if spawn.my().unwrap_or(false) {
                     spawn.spawn_creep(&[Part::Move, Part::Attack]);
