@@ -1,12 +1,20 @@
 "use strict";
 
-import { initSync, wasm_loop } from "./screeps-arena-starter-rust";
+import { initSync, Bot } from "./screeps-arena-starter-rust";
 import wasm_bytes from "./screeps-arena-starter-rust_bg.wasm.bin";
 const wasm_module = new WebAssembly.Module(wasm_bytes);
 initSync({ module: wasm_module });
 export * from "./screeps-arena-starter-rust";
-
 Error.stackTraceLimit = 100;
+
+// This creates an instance of the rust/wasm Bot struct (defined in
+// src/lib.rs) which has lifetime equal to the length of the match.
+// When javascript creates this object, the method marked with
+// #[wasm_bindgen(constructor)] will be invoked to perform any
+// rust-side initialisation.
+// This occurs during game setup, before the first game tick
+// has started.
+let bot = new Bot();
 
 // This provides the function `console.error` that wasm_bindgen sometimes expects to exist,
 // especially with type checks in debug mode. An alternative is to have this be `function () {}`
@@ -31,12 +39,14 @@ function console_warn() {
     console.log("WARN:", arguments);
 }
 
+// Each tick of the game, the screeps game engine calls this javascript loop
+// function, which then hands control to rust/wasm code.
 function loop () {
   // need to freshly override the fake console object each tick
   console.error = console_error;
   console.warn = console_warn;
   try {
-      wasm_loop();
+      bot.loop();
   } catch (error) {
       console.error("caught exception:", error);
       // we've already logged the more-descriptive stack trace from rust's panic_hook
