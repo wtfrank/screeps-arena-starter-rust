@@ -83,3 +83,28 @@ impl Bot {
         }
     }
 }
+
+#[cfg(not(target_arch = "wasm32"))]
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn bot_initialize() -> *mut Bot {
+    Box::into_raw(Box::new(Bot::initialize()))
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn bot_tick(bot: *mut Bot) {
+    unsafe {
+        let bot = &mut *bot;
+        bot.tick();
+    }
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn bot_free(bot: *mut Bot) {
+    unsafe {
+        if !bot.is_null() {
+            let _ = Box::from_raw(bot);
+        }
+    }
+}
