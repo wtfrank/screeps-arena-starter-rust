@@ -1,3 +1,5 @@
+"use strict";
+
 import { initSync, wasm_loop } from "./screeps-arena-starter-rust";
 import wasm_bytes from "./screeps-arena-starter-rust_bg.wasm.bin";
 const wasm_module = new WebAssembly.Module(wasm_bytes);
@@ -25,9 +27,14 @@ function console_error() {
     console.log("ERROR:", processedArgs);
 }
 
+function console_warn() {
+    console.log("WARN:", arguments);
+}
+
 function loop () {
   // need to freshly override the fake console object each tick
   console.error = console_error;
+  console.warn = console_warn;
   try {
       wasm_loop();
   } catch (error) {
