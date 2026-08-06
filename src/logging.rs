@@ -1,10 +1,10 @@
 use crate::wasm_bindgen;
-use std::panic::PanicHookInfo;
 use js_sys::JsString;
-use log::error;
 pub use log::LevelFilter::*;
+use log::error;
 use std::fmt::Write;
 use std::panic;
+use std::panic::PanicHookInfo;
 use web_sys::console;
 
 struct JsLog;

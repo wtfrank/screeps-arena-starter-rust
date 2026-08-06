@@ -2,7 +2,7 @@
 name = "screeps-arena-starter-rust"
 version = "0.0.0"
 authors = []
-edition = "2018"
+edition = "2024"
 
 [lib]
 crate-type = ["cdylib", "rlib"]

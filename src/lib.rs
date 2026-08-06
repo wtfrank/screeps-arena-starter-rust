@@ -1,6 +1,6 @@
 use log::*;
 use screeps_arena::{
-    constants::{prototypes, Part},
+    constants::{Part, prototypes},
     game,
     prelude::*,
 };
