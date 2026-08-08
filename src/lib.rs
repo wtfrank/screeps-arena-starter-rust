@@ -59,16 +59,21 @@ impl Bot {
             let mut enemy_spawn = None;
             let spawns = game::utils::get_objects_by_prototype(prototypes::STRUCTURE_SPAWN);
             warn!("spawns {}", spawns.len());
+
+            let creeps = game::utils::get_objects_by_prototype(prototypes::CREEP);
+            warn!("creeps {}", creeps.len());
+
+            let max_creeps = 1;
             for spawn in spawns {
                 if spawn.my().unwrap_or(false) {
-                    spawn.spawn_creep(&[Part::Move, Part::Attack]);
+                    if creeps.len() < max_creeps {
+                        spawn.spawn_creep(&[Part::Move, Part::Attack]);
+                    }
                 } else {
                     enemy_spawn = Some(spawn);
                 }
             }
 
-            let creeps = game::utils::get_objects_by_prototype(prototypes::CREEP);
-            warn!("creeps {}", creeps.len());
             for creep in creeps {
                 if creep.my() {
                     match &enemy_spawn {

@@ -1,10 +1,10 @@
 "use strict";
 
-import { initSync, Bot } from "./screeps-arena-starter-rust";
-import wasm_bytes from "./screeps-arena-starter-rust_bg.wasm.bin";
+import { initSync, Bot } from "./spawn-rush-single-bot";
+import wasm_bytes from "./spawn-rush-single-bot_bg.wasm.bin";
 const wasm_module = new WebAssembly.Module(wasm_bytes);
 initSync({ module: wasm_module });
-export * from "./screeps-arena-starter-rust";
+export * from "./spawn-rush-single-bot";
 Error.stackTraceLimit = 100;
 
 // This creates an instance of the rust/wasm Bot struct (defined in
